@@ -1,0 +1,11 @@
+# Backend node modules
+backend/node_modules/
+
+# Frontend node modules (future)
+frontend/node_modules/
+
+# Environment files
+*.env
+
+# Logs
+*.log
