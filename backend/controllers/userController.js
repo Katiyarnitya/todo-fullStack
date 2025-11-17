@@ -38,7 +38,6 @@ const loginUser = async (req, res) => {
     res.status(401).json({ message: "Invalid email or password" });
   }
 };
-
 module.exports = {
   registerUser,
   loginUser,
