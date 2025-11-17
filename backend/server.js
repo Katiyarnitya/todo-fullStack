@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 
 const userRoutes = require("./routes/userRoutes.js");
+const todoRoutes = require("./routes/todoRoutes.js");
 
 const connectDB = require("./config/db.js");
 
@@ -13,6 +14,7 @@ const app = express(); // craete an express app
 app.use(express.json());
 
 app.use("/api/users", userRoutes);
+app.use("/api/todos", todoRoutes);
 
 app.get("/", (req, res) => {
   res.send(`API is working on port...`);
