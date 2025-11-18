@@ -1,10 +1,17 @@
 const express = require("express");
-const { getTodo, addTodo } = require("../controllers/todoController");
+const {
+  getTodo,
+  addTodo,
+  editTodo,
+  deleteTodo,
+} = require("../controllers/todoController");
 
 const protect = require("../middleware/authMiddleware");
 
 const router = express.Router();
-router.get("/getTodo", protect, getTodo);
-router.post("/addTodo", protect, addTodo);
+router.get("/", protect, getTodo);
+router.post("/", protect, addTodo);
+router.put("/:id", protect, editTodo);
+router.delete("/:id", protect, deleteTodo);
 
 module.exports = router;
