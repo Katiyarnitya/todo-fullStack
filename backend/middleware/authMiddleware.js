@@ -16,7 +16,7 @@ const protect = async (req, res, next) => {
       return res.status(401).json({ message: "Not authorized, token failed" });
     }
   } else {
-    return res.status(401).json({ message: "No token, not authorized" }); // ✅ Only one response
+    return res.status(401).json({ message: "No token, not authorized" }); // Only one response
   }
 };
 module.exports = protect;
