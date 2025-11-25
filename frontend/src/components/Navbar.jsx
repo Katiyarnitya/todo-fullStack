@@ -1,4 +1,10 @@
+import { useNavigate } from "react-router-dom";
 export default function Navbar() {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // remove JWT
+    navigate("/login");
+  };
   return (
     <nav
       class="navbar fixed-top"
@@ -23,14 +29,15 @@ export default function Navbar() {
               padding: "0.5rem 1.2rem",
               margin: "0 8px",
             }}
-            type="submit"
+            type="button"
+            onClick={handleLogout}
           >
-            Login
+            Logout
           </button>
           <button
             class="btn btn-outline-success"
             style={{ fontSize: "1rem", padding: "0.5rem 1.2rem" }}
-            type="submit"
+            type="button"
           >
             Signup
           </button>

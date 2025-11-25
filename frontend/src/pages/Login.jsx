@@ -1,16 +1,39 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Login() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Email : ", email, "Password:", password);
-    navigate("/");
+    console.log("FORM SUBMITTED");
+    console.log("Sending:", email, password);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/users/login",
+        {
+          email,
+          password,
+        }
+      );
+      console.log("Response received:", response);
+      if (response.data.success) {
+        setMessage("Login successfull");
+        localStorage.setItem("token", response.data.token);
+        navigate("/");
+      } else {
+        setMessage(response.data.message);
+      }
+    } catch (err) {
+      console.log(err);
+      setMessage("Something went wrong!");
+    }
   };
 
   return (
@@ -69,6 +92,7 @@ export default function Login() {
           Login
         </button>
       </form>
+      <p className="mt-3 text-danger">{message}</p>
     </div>
   );
 }

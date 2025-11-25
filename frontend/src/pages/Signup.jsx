@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -7,11 +8,27 @@ export default function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Name : ", name, "Email : ", email, "Password:", password);
-    navigate("/login");
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/users/signup",
+        { name, email, password }
+      );
+
+      if (response.data.success) {
+        setMessage("Signup successful!");
+        localStorage.setItem("token", response.data.token);
+        navigate("/");
+      } else {
+        setMessage(response.data.message);
+      }
+    } catch (error) {
+      setMessage(error.response?.data?.message || "Something went wrong");
+      console.log(error);
+    }
   };
 
   return (
@@ -73,6 +90,7 @@ export default function Signup() {
 
         <button className="btn btn-primary w-100">Signup</button>
       </form>
+      <p className="mt-3 text-danger">{message}</p>
     </div>
   );
 }

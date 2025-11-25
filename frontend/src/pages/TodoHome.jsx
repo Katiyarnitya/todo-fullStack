@@ -1,30 +1,31 @@
 import Navbar from "../components/Navbar";
 import AddTodo from "../components/AddTodo";
 import TodoContainer from "../components/TodoContainer";
+import { useEffect, useState } from "react";
 
 export default function TodoHome() {
-  const todos = [
-    {
-      _id: 1,
-      title: "Learn React",
-      description: "Start with components, props, and state basics",
-    },
-    {
-      _id: 2,
-      title: "Build a Todo App",
-      description: "Create add, edit, delete features with React Router",
-    },
-    {
-      _id: 3,
-      title: "Learn Bootstrap",
-      description: "Practice grid system, utilities, and components",
-    },
-  ];
+  const [todos, setTodos] = useState([]);
+
+  // Fetch todos from backend on page load
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get("http://localhost:5000/api/todos/", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setTodos(response.data);
+      } catch (error) {
+        console.error("Error fetching todos:", error);
+      }
+    };
+    fetchTodos();
+  }, []);
   return (
     <div>
       <Navbar></Navbar>
-      <AddTodo></AddTodo>
-      <TodoContainer todos={todos}></TodoContainer>
+      <AddTodo todos={todos} setTodos={setTodos}></AddTodo>
+      <TodoContainer todos={todos} setTodos={setTodos}></TodoContainer>
     </div>
   );
 }
