@@ -16,6 +16,7 @@ const registerUser = async (req, res) => {
       name: user.name,
       email: user.email,
       token: generateToken(user._id),
+      success: true,
     });
   } else {
     res.status(400).json({ message: "Invalid user data" });
@@ -33,6 +34,8 @@ const loginUser = async (req, res) => {
       name: user.name,
       email: user.email,
       token: generateToken(user._id),
+      success: true,
+      message: "Login successful",
     });
   } else {
     res.status(401).json({ message: "Invalid email or password" });

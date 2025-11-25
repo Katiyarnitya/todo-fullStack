@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const userRoutes = require("./routes/userRoutes.js");
 const todoRoutes = require("./routes/todoRoutes.js");
 
+const cors = require("cors");
+
 const connectDB = require("./config/db.js");
 
 dotenv.config();
@@ -12,6 +14,7 @@ connectDB();
 
 const app = express(); // craete an express app
 app.use(express.json());
+app.use(cors()); // Allow frontend to send request to backend
 
 app.use("/api/users", userRoutes);
 app.use("/api/todos", todoRoutes);
