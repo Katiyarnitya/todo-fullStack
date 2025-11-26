@@ -21,6 +21,14 @@ export default function Signup() {
       if (response.data.success) {
         setMessage("Signup successful!");
         localStorage.setItem("token", response.data.token);
+        //storing user details
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            name: response.data.name, // your backend sends 'name'
+            email: response.data.email,
+          })
+        );
         navigate("/");
       } else {
         setMessage(response.data.message);

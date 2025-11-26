@@ -26,6 +26,15 @@ export default function Login() {
       if (response.data.success) {
         setMessage("Login successfull");
         localStorage.setItem("token", response.data.token);
+        // Store user details
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            name: response.data.name, // your backend sends 'name'
+            email: response.data.email,
+          })
+        );
+
         navigate("/");
       } else {
         setMessage(response.data.message);
@@ -91,6 +100,19 @@ export default function Login() {
         <button type="submit" className="btn btn-primary w-100">
           Login
         </button>
+        {/* Signup Link */}
+        <div className="text-center mt-3 text-light">
+          <small>
+            No account?{" "}
+            <span
+              className="text-primary"
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate("/signup")}
+            >
+              Create Account
+            </span>
+          </small>
+        </div>
       </form>
       <p className="mt-3 text-danger">{message}</p>
     </div>
