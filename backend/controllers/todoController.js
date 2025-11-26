@@ -10,6 +10,23 @@ const getTodo = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+
+// get single todo
+const getSingleTodo = async (req, res) => {
+  try {
+    const todo = await Todo.findById(req.params.id);
+    if (!todo) {
+      return res.status(404).json({ message: "Todo not found" });
+    }
+
+    if (todo.user.toString() !== req.user.id) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    res.json(todo);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
 // add Todos
 
 const addTodo = async (req, res) => {
@@ -70,4 +87,4 @@ const deleteTodo = async (req, res) => {
   }
 };
 
-module.exports = { getTodo, addTodo, editTodo, deleteTodo };
+module.exports = { getTodo, getSingleTodo, addTodo, editTodo, deleteTodo };
